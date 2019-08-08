@@ -6,13 +6,11 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.findbug.Dominio.BancoController;
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
 
@@ -42,7 +40,7 @@ public class MenuBar extends AppCompatActivity {
         final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
         databaseAcess.open();
 
-        mais = (ImageButton) findViewById(R.id.mais);
+        mais = findViewById(R.id.mais);
 
         mais.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -54,11 +52,11 @@ public class MenuBar extends AppCompatActivity {
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        seta_direita  = (ImageButton)findViewById(R.id.seta_direita);
-        seta_esquerda = (ImageButton)findViewById(R.id.seta_esquerda);
-        imagens       = (ImageView)findViewById(R.id.imageInseto);
+        seta_direita = findViewById(R.id.seta_direita);
+        seta_esquerda = findViewById(R.id.seta_esquerda);
+        imagens = findViewById(R.id.imageInseto);
 
-        guardar = new int[3];
+        guardar = new int[5];
 
         inseto = new Inseto();
 

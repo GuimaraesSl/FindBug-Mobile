@@ -1,10 +1,11 @@
 package com.example.findbug.Dominio;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class DatabaseAcess {
         SQLiteDatabase db = this.openHelper.getReadableDatabase();
 
         Cursor cursor = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
-                        COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS}, COLUNA_COD + " = ?",
+                        COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_COD + " = ?",
                 new String[]{String.valueOf(codigo)}, null, null, null, null);
 
         if(cursor!=null) {
@@ -58,6 +59,40 @@ public class DatabaseAcess {
 
 
         return inseto;
+    }
+
+    public String[] SearchInseto(String Tipo, String Lavoura){
+        List<String> result = new ArrayList<String>();
+        SQLiteDatabase db = this.openHelper.getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+
+        Log.d("Lavoura", String.valueOf(Lavoura));
+        Log.d("Tipo", String.valueOf(Tipo));
+
+        qb.setTables(TABELA_INSETO);
+
+        Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
+                COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_TIPO + "=? and " + COLUNA_LAVOURA + "=?",
+                new String[]{String.valueOf(Tipo),String.valueOf(Lavoura)}, null, null,null,null);
+
+        if(c1.moveToFirst()){
+            do{
+                Log.d("Ent", "Entrou no bagui");
+                result.add(c1.getString(0));
+            }while(c1.moveToNext());
+        }
+
+
+        String[] resultado = new String[result.size()];
+        result.toArray(resultado);
+
+
+        for (int i = 0; i < resultado.length; i++){
+            Log.d("ID'S", String.valueOf(resultado[i]));
+                }
+
+        return null;
     }
 
     public List<Inseto> todosInsetos(){
@@ -83,5 +118,21 @@ public class DatabaseAcess {
         }
         return listaInsetos;
     }
+    public List<String> getQuotes(){
+        List<String> list = new ArrayList<>();
+        Cursor c = database.rawQuery("SELECT * FROM tb_insetos", null);
+        c.moveToFirst();
+        while (!c.isAfterLast()){
+            list.add(String.valueOf(c.getLong(0)));
+            c.moveToNext();
+        }
+        c.close();
+        return list;
+    }
+
+
+
+
+
 
 }

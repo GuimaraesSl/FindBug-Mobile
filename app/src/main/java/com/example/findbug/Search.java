@@ -17,13 +17,16 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.findbug.Dominio.BancoController;
+import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
 
 import java.lang.reflect.Array;
+import java.util.List;
 
 public class Search extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -31,7 +34,8 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     Spinner SpnLavoura;
     public String Lavoura;
     public String TIPO;
-
+    DatabaseAcess db;
+    ListView LIST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +44,21 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        db = new DatabaseAcess(this);
+        final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
+        databaseAcess.open();
+
+        LIST = (ListView)findViewById(R.id.LIST);
         SpnTipo     = (Spinner)findViewById(R.id.SpnTipo);
         SpnLavoura  = (Spinner)findViewById(R.id.SpnLavoura);
+
+        //TEM QUE DÁ UM JEITO NISSO AQUI
+        final String[][] resultado = {new String[10]};
+
+        List<String> quotes = databaseAcess.getQuotes();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, quotes);
+        this.LIST.setAdapter(adapter);
+
 
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.TIPO, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(R.layout.spinner_item);
@@ -59,6 +76,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
             @Override
             public void onClick(View view) {
 
+                db.SearchInseto(TIPO,Lavoura);
                 Intent it = new Intent(Search.this, MenuBar.class);
                 startActivity(it);
                 //Chamar o activity MenuBar

@@ -27,16 +27,17 @@
     <Spinner
         android:id="@+id/SpnTipo"
         style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textSize="30sp"
-        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarStyle="insideOverlay"
+        android:spinnerMode="dropdown"
         android:text=""
         android:textColor="#FCF9F9"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@+id/textTipo"
         app:layout_constraintStart_toStartOf="@+id/textTipo"
         app:layout_constraintTop_toBottomOf="@+id/textTipo" />
@@ -59,17 +60,28 @@
     <Spinner
         android:id="@+id/SpnLavoura"
         style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarStyle="insideOverlay"
         android:spinnerMode="dropdown"
         android:textColor="#FCF9F9"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@+id/textLavoura"
         app:layout_constraintStart_toStartOf="@+id/textLavoura"
         app:layout_constraintTop_toBottomOf="@+id/textLavoura" />
+
+    <ListView
+        android:id="@+id/LIST"
+        android:layout_width="395dp"
+        android:layout_height="172dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
