@@ -1,10 +1,13 @@
 package com.example.findbug;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ public class inf_Adicionais extends AppCompatActivity {
     DatabaseAcess db;
     Inseto inseto;
     MenuBar Menu;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,11 @@ public class inf_Adicionais extends AppCompatActivity {
         textInfLavoura = findViewById(R.id.txtInfLavoura);
         textCod = findViewById(R.id.txtInfCod);
         textInfAd = findViewById(R.id.txtInfAd);
+        imageView = findViewById(R.id.imageView2);
+
+        byte[] imagem = db.PegarImagensByID(String.valueOf(ID));
+        Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
+        imageView.setImageBitmap(bt);
 
         Menu = new MenuBar();
         inseto = new Inseto();
