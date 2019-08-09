@@ -134,7 +134,7 @@ public class DatabaseAcess {
 //==================================================================================================
 
     //AUXILIAR. NÃO ESTARÁ NO PROJETO FINAL
-    public List<String> getQuotes() {
+   /*public List<String> getQuotes() {
         List<String> list = new ArrayList<>();
         Cursor c = database.rawQuery("SELECT * FROM tb_insetos", null);
         c.moveToFirst();
@@ -144,7 +144,7 @@ public class DatabaseAcess {
         }
         c.close();
         return list;
-    }
+    }*/
 
 
 

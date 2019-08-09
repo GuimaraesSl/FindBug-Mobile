@@ -50,9 +50,9 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         resultado = new ArrayList<>();
 
         //LISTA PROVISÓRIA PARA MONITORAMENTO DE ATUALIZAÇÕES DO BANCO DE DADOS
-        List<String> quotes = databaseAcess.getQuotes();
+        /*List<String> quotes = databaseAcess.getQuotes();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, quotes);
-        this.LIST.setAdapter(adapter);
+        this.LIST.setAdapter(adapter);*/
 
         //===================CONFIGURAÇÃO SPINNERS=========================
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.TIPO, android.R.layout.simple_spinner_item);
