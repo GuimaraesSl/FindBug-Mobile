@@ -8,11 +8,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
@@ -23,14 +21,12 @@ import java.util.List;
 public class MenuBar extends AppCompatActivity {
 
     public int cont = 0;
-    ImageButton mais;
-    ImageButton seta_direita, seta_esquerda;
     ImageView imagens;
     public int Id;
+    ImageButton mais, seta_direita, seta_esquerda;
     public List<String> resultado;
     Inseto inseto;
     inf_Adicionais inf;
-
     DatabaseAcess db;
 
     @SuppressLint("WrongViewCast")
@@ -42,45 +38,45 @@ public class MenuBar extends AppCompatActivity {
         setSupportActionBar(toolbar);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        inseto = new Inseto();
         db = new DatabaseAcess(this);
-        final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
-        databaseAcess.open();
         inf = new inf_Adicionais();
         resultado = new ArrayList<>();
-        resultado = Search.getResult();
-        final String[] result = new String[resultado.size()];
-        resultado.toArray(result);
 
         seta_direita = findViewById(R.id.seta_direita);
         seta_esquerda = findViewById(R.id.seta_esquerda);
         imagens = findViewById(R.id.imageInseto);
         mais = findViewById(R.id.mais);
 
+        final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
+        databaseAcess.open();
+
+        resultado = Search.getResult();
+        final String[] result = new String[resultado.size()];
+        resultado.toArray(result);
+
+        //FUNÇÃO BOTÃO DE INFORMAÇÕES ADICIONAIS
+        //REGISTRA O ID DO INSETO ESCOLHIDO E INICIA O ACTIVITY DAS INFORMAÇÕES ADICIONAIS
         mais.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Log.d("MAIS", String.valueOf(Id));
                 inf_Adicionais.ID = Id;
-                Log.d("MAIS-INF", String.valueOf(inf_Adicionais.ID));
 
                 Intent it = new Intent(MenuBar.this, inf_Adicionais.class);
                 startActivity(it);
-                //Chamar o activity inf_Adicionais
             }
         });
 
-
-        inseto = new Inseto();
+        //===== PROCESSO DE MANIPULAÇÃOS DOS RESULTADOS DA PESQUISA (ID E IMAGENS)====
 
         if(cont==0){
+            //BLOCO SetImage
+            //Blob da imagem é puxada da função do DatabaseAcess(PegarImagemByID)
+            //Blob é convertido em Bitmap e setado no ImageView
             byte[] imagem = db.PegarImagensByID(String.valueOf(result[cont]));
             Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
             imagens.setImageBitmap(bt);
             Id = (Integer.parseInt(result[cont]));
         }
-
-
-        Toast.makeText(getApplicationContext(), "ID = "+inseto.getId(), Toast.LENGTH_SHORT).show();
-        //verificar se o ID = 1
 
         seta_direita.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -90,21 +86,13 @@ public class MenuBar extends AppCompatActivity {
                     imagens.setImageBitmap(bt);
                 } else {
                     cont++;
-                    //reuslt[cont] = ID que vai mandar para a função de pegar imagem!!!!
                     byte[] imagem = db.PegarImagensByID(String.valueOf(result[cont]));
                     Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
                     imagens.setImageBitmap(bt);
                 }
-
                 Id = Integer.parseInt(result[cont]);
-                //seta o valor do ID do segundo inseto na variavel auxiliar(ID = cont(2))
-
-                //Toast.makeText(getApplicationContext(), "CONT = "+cont, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), "ID = " +inseto.getId(), Toast.LENGTH_SHORT).show();
-
             }
         });
-
 
         seta_esquerda.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -121,17 +109,9 @@ public class MenuBar extends AppCompatActivity {
                 }
 
                 Id = Integer.parseInt(result[cont]);
-                //seta o valor do ID do primeiro inseto na variavel auxiliar(ID = cont(1))
-
-                //Toast.makeText(getApplicationContext(), "CONT = "+cont, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), "ID = "+inseto.getId(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
         //>>===================================================================
-
-
     }
 }
 

@@ -28,6 +28,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     ListView LIST;
     public static List<String> resultado;
 
+    //Função para transmição do resultado do search para o MenuBar
     public static List<String> getResult() {
         return resultado;
     }
@@ -48,11 +49,12 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         SpnLavoura = findViewById(R.id.SpnLavoura);
         resultado = new ArrayList<>();
 
+        //LISTA PROVISÓRIA PARA MONITORAMENTO DE ATUALIZAÇÕES DO BANCO DE DADOS
         List<String> quotes = databaseAcess.getQuotes();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, quotes);
         this.LIST.setAdapter(adapter);
 
-
+        //===================CONFIGURAÇÃO SPINNERS=========================
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.TIPO, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(R.layout.spinner_item);
         SpnTipo.setAdapter(adapter1);
@@ -62,8 +64,9 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         adapter2.setDropDownViewResource(R.layout.spinner_item);
         SpnLavoura.setAdapter(adapter2);
         SpnLavoura.setOnItemSelectedListener(this);
+        //=================================================================
 
-
+        //Função FLOATINGBUTTON, onde a operação do DatabaseAcess-SearchInseto é chamada.
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,12 +77,12 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
                 Intent it = new Intent(Search.this, MenuBar.class);
                 startActivity(it);
                 //Chamar o activity MenuBar
-
             }
         });
 
     }
 
+    //Chamada do menu (Haverá mais funções no futuro)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -87,6 +90,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         return super.onCreateOptionsMenu(menu);
     }
 
+    //=====Registro das opções selecionadas nos Spinners====
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Spinner spin = (Spinner)parent;
@@ -104,4 +108,5 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+    //=======================================================
 }

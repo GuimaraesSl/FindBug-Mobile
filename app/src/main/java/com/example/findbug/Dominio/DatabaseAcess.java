@@ -5,12 +5,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseAcess {
+
+    //==============CONEXÃO==========================
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAcess instance;
@@ -18,6 +19,7 @@ public class DatabaseAcess {
     public DatabaseAcess(Context context){
         this.openHelper = new BancoController(context);
     }
+
     public static DatabaseAcess getInstance(Context context){
         if (instance == null){
             instance = new DatabaseAcess(context);
@@ -35,6 +37,8 @@ public class DatabaseAcess {
         }
 
     }
+    //==================================================
+
     public static final String TABELA_INSETO = "tb_insetos";
     public static final String COLUNA_COD = "_id";
     public static final String COLUNA_TIPO = "tipo";
@@ -42,6 +46,7 @@ public class DatabaseAcess {
     public static final String COLUNA_INF_ADICIONAIS = "inf_adicionais";
     public static final String COLUNA_IMAGENS = "imagem";
 
+    //SELECIONA E RECOLHE TODAS AS INFOMAÇÕES DE UM INSETO ESPECÍFICO, DE ACORDO COM O ID;
     public Inseto selecionarInseto(int codigo){
 
         SQLiteDatabase db = this.openHelper.getReadableDatabase();
@@ -61,31 +66,27 @@ public class DatabaseAcess {
         return inseto;
     }
 
+    //Search dos insetos, salva os ID's Resultado em uma List<Srtring>
     public List<String> SearchInseto(String Tipo, String Lavoura) {
         List<String> result = new ArrayList<String>();
         SQLiteDatabase db = this.openHelper.getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-
-        Log.d("Lavoura", String.valueOf(Lavoura));
-        Log.d("Tipo", String.valueOf(Tipo));
-
         qb.setTables(TABELA_INSETO);
 
         Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
-                COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_TIPO + "=? and " + COLUNA_LAVOURA + "=?",
+                        COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_TIPO + "=? and " + COLUNA_LAVOURA + "=?",
                 new String[]{String.valueOf(Tipo),String.valueOf(Lavoura)}, null, null,null,null);
 
         if(c1.moveToFirst()){
             do{
-                Log.d("Ent", "Entrou no bagui");
                 result.add(c1.getString(0));
             }while(c1.moveToNext());
         }
-
         return result;
     }
 
+    //LISTA TODOS OS INSETOS QUE HÁ NO BANCO DE DADOS
     public List<Inseto> todosInsetos(){
 
         List<Inseto> listaInsetos = new ArrayList<Inseto>();
@@ -104,23 +105,14 @@ public class DatabaseAcess {
                 inseto.setLavoura(c.getString(2));
                 inseto.setInf_adicionais(c.getString(3));
 
+
                 listaInsetos.add(inseto);
             }while(c.moveToNext());
         }
         return listaInsetos;
     }
-    public List<String> getQuotes(){
-        List<String> list = new ArrayList<>();
-        Cursor c = database.rawQuery("SELECT * FROM tb_insetos", null);
-        c.moveToFirst();
-        while (!c.isAfterLast()){
-            list.add(String.valueOf(c.getLong(0)));
-            c.moveToNext();
-        }
-        c.close();
-        return list;
-    }
 
+    //Pega o BLOB referente aos ID's dos resultados e guarda em um byte[] para ser posteriormente convertido.
     public byte[] PegarImagensByID(String ID) {
         SQLiteDatabase database = this.openHelper.getWritableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -137,6 +129,21 @@ public class DatabaseAcess {
             } while (c.moveToNext());
         }
         return resultado;
+    }
+
+//==================================================================================================
+
+    //AUXILIAR. NÃO ESTARÁ NO PROJETO FINAL
+    public List<String> getQuotes() {
+        List<String> list = new ArrayList<>();
+        Cursor c = database.rawQuery("SELECT * FROM tb_insetos", null);
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            list.add(String.valueOf(c.getLong(0)));
+            c.moveToNext();
+        }
+        c.close();
+        return list;
     }
 
 
