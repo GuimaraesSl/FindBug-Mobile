@@ -1,31 +1,21 @@
 package com.example.findbug;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.example.findbug.Dominio.BancoController;
 import com.example.findbug.Dominio.DatabaseAcess;
-import com.example.findbug.Dominio.Inseto;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Search extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -36,6 +26,11 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     public String TIPO;
     DatabaseAcess db;
     ListView LIST;
+    public static List<String> resultado;
+
+    public static List<String> getResult() {
+        return resultado;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +43,10 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
         databaseAcess.open();
 
-        LIST = (ListView)findViewById(R.id.LIST);
-        SpnTipo     = (Spinner)findViewById(R.id.SpnTipo);
-        SpnLavoura  = (Spinner)findViewById(R.id.SpnLavoura);
-
-        //TEM QUE DÁ UM JEITO NISSO AQUI
-        final String[][] resultado = {new String[10]};
+        LIST = findViewById(R.id.LIST);
+        SpnTipo = findViewById(R.id.SpnTipo);
+        SpnLavoura = findViewById(R.id.SpnLavoura);
+        resultado = new ArrayList<>();
 
         List<String> quotes = databaseAcess.getQuotes();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, quotes);
@@ -76,7 +69,8 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
             @Override
             public void onClick(View view) {
 
-                db.SearchInseto(TIPO,Lavoura);
+                resultado = db.SearchInseto(TIPO, Lavoura);
+
                 Intent it = new Intent(Search.this, MenuBar.class);
                 startActivity(it);
                 //Chamar o activity MenuBar

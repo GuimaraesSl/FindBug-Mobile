@@ -61,7 +61,7 @@ public class DatabaseAcess {
         return inseto;
     }
 
-    public String[] SearchInseto(String Tipo, String Lavoura){
+    public List<String> SearchInseto(String Tipo, String Lavoura) {
         List<String> result = new ArrayList<String>();
         SQLiteDatabase db = this.openHelper.getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -83,16 +83,7 @@ public class DatabaseAcess {
             }while(c1.moveToNext());
         }
 
-
-        String[] resultado = new String[result.size()];
-        result.toArray(resultado);
-
-
-        for (int i = 0; i < resultado.length; i++){
-            Log.d("ID'S", String.valueOf(resultado[i]));
-                }
-
-        return null;
+        return result;
     }
 
     public List<Inseto> todosInsetos(){
@@ -128,6 +119,24 @@ public class DatabaseAcess {
         }
         c.close();
         return list;
+    }
+
+    public byte[] PegarImagensByID(String ID) {
+        SQLiteDatabase database = this.openHelper.getWritableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] select = {"_id", "tipo", "lavoura", "inf_adicionais", "imagem"};
+
+        qb.setTables("tb_insetos");
+
+        Cursor c = qb.query(database, select, "_id = ?", new String[]{String.valueOf(ID)}, null, null, null);
+        byte[] resultado = null;
+        if (c.moveToFirst()) {
+            do {
+                resultado = c.getBlob(4);
+            } while (c.moveToNext());
+        }
+        return resultado;
     }
 
 

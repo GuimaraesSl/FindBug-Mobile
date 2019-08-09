@@ -69,7 +69,9 @@ public class Inseto {
         this.lavoura = lavoura;
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return this.id;
+    }
 
     public void setId(int id) { this.id = id; }
 }
