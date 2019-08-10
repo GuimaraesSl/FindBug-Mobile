@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.findbug.Dominio.DatabaseAcess;
 
@@ -74,9 +76,15 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
 
                 resultado = db.SearchInseto(TIPO, Lavoura);
 
-                Intent it = new Intent(Search.this, MenuBar.class);
-                startActivity(it);
-                //Chamar o activity MenuBar
+                Log.d("RESULTADO", String.valueOf(resultado));
+
+                if (String.valueOf(resultado) == "[]") {
+                    Toast.makeText(Search.this, "RESULTADO NÃO ENCONTRADO", Toast.LENGTH_SHORT).show();
+                } else {
+                    //Chamar o activity MenuBar
+                    Intent it = new Intent(Search.this, MenuBar.class);
+                    startActivity(it);
+                }
             }
         });
 
@@ -96,11 +104,19 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         Spinner spin = (Spinner)parent;
 
         if(spin.getId() == R.id.SpnTipo){
-            TIPO = SpnTipo.getItemAtPosition(position).toString();
+            if (position == 0) {
+                TIPO = null;
+            } else {
+                TIPO = SpnTipo.getItemAtPosition(position).toString();
+            }
         }
 
         if(spin.getId() == R.id.SpnLavoura){
-            Lavoura = SpnLavoura.getItemAtPosition(position).toString();
+            if (position == 0) {
+                Lavoura = null;
+            } else {
+                Lavoura = SpnLavoura.getItemAtPosition(position).toString();
+            }
         }
     }
 

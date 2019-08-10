@@ -69,7 +69,7 @@
                     android:id="@+id/txtCod3"
                     android:layout_width="93dp"
                     android:layout_height="44dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="7dp"
                     android:layout_marginEnd="8dp"
                     android:padding="12sp"
 
@@ -98,7 +98,7 @@
                     android:id="@+id/txtTipo3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="7dp"
                     android:layout_marginTop="19dp"
                     android:padding="12sp"
                     android:text="TIPO:"

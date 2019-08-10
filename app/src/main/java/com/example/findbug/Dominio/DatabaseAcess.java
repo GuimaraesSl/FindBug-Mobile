@@ -74,16 +74,56 @@ public class DatabaseAcess {
 
         qb.setTables(TABELA_INSETO);
 
-        Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
-                        COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_TIPO + "=? and " + COLUNA_LAVOURA + "=?",
-                new String[]{String.valueOf(Tipo),String.valueOf(Lavoura)}, null, null,null,null);
+        if (Tipo != null & Lavoura != null) {
+            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
+                            COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_TIPO + "=? and " + COLUNA_LAVOURA + "=?",
+                    new String[]{Tipo, Lavoura}, null, null, null, null);
 
-        if(c1.moveToFirst()){
-            do{
-                result.add(c1.getString(0));
-            }while(c1.moveToNext());
+            if (c1.moveToFirst()) {
+                do {
+                    result.add(c1.getString(0));
+                } while (c1.moveToNext());
+            }
+
+            return result;
         }
+
+        if (Tipo == null) {
+
+            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
+                            COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_LAVOURA + "=?",
+                    new String[]{String.valueOf(Lavoura)}, null, null, null, null);
+
+            if (c1.moveToFirst()) {
+                do {
+                    result.add(c1.getString(0));
+                } while (c1.moveToNext());
+            }
+
+            return result;
+
+        }
+
+        if (Lavoura == null) {
+
+            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
+                            COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_TIPO + "=?",
+                    new String[]{Tipo}, null, null, null, null);
+
+            if (c1.moveToFirst()) {
+                do {
+                    result.add(c1.getString(0));
+                } while (c1.moveToNext());
+            }
+
+            result = null;
+            return result;
+
+        }
+
+        result = null;
         return result;
+
     }
 
     //LISTA TODOS OS INSETOS QUE HÁ NO BANCO DE DADOS
