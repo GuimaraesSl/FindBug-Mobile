@@ -15,6 +15,9 @@ public class DatabaseAcess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAcess instance;
+    public static final String COLUNA_NOME = "Nome";
+    List<Inseto> insetos;
+    DatabaseAcess databaseAcess;
 
     public DatabaseAcess(Context context){
         this.openHelper = new BancoController(context);
@@ -40,6 +43,7 @@ public class DatabaseAcess {
     //==================================================
 
     public static final String TABELA_INSETO = "tb_insetos";
+    int cont;
     public static final String COLUNA_COD = "_id";
     public static final String COLUNA_TIPO = "tipo";
     public static final String COLUNA_LAVOURA = "lavoura";
@@ -51,7 +55,7 @@ public class DatabaseAcess {
 
         SQLiteDatabase db = this.openHelper.getReadableDatabase();
 
-        Cursor cursor = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
+        Cursor cursor = db.query(TABELA_INSETO, new String[]{COLUNA_COD, COLUNA_NOME,
                         COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_COD + " = ?",
                 new String[]{String.valueOf(codigo)}, null, null, null, null);
 
@@ -60,7 +64,7 @@ public class DatabaseAcess {
         }
 
         Inseto inseto = new Inseto(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3));
+                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
 
 
         return inseto;
@@ -75,7 +79,7 @@ public class DatabaseAcess {
         qb.setTables(TABELA_INSETO);
 
         if (Tipo != null & Lavoura != null) {
-            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
+            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD, COLUNA_NOME,
                             COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_TIPO + "=? and " + COLUNA_LAVOURA + "=?",
                     new String[]{Tipo, Lavoura}, null, null, null, null);
 
@@ -88,11 +92,11 @@ public class DatabaseAcess {
             return result;
         }
 
-        if (Tipo == null) {
+        if (Tipo == null & Lavoura != null) {
 
-            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
+            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD, COLUNA_NOME,
                             COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_LAVOURA + "=?",
-                    new String[]{String.valueOf(Lavoura)}, null, null, null, null);
+                    new String[]{Lavoura}, null, null, null, null);
 
             if (c1.moveToFirst()) {
                 do {
@@ -104,9 +108,9 @@ public class DatabaseAcess {
 
         }
 
-        if (Lavoura == null) {
+        if (Lavoura == null & Tipo != null) {
 
-            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD,
+            Cursor c1 = db.query(TABELA_INSETO, new String[]{COLUNA_COD, COLUNA_NOME,
                             COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_TIPO + "=?",
                     new String[]{Tipo}, null, null, null, null);
 
@@ -116,9 +120,15 @@ public class DatabaseAcess {
                 } while (c1.moveToNext());
             }
 
-            result = null;
             return result;
 
+        }
+
+        if (Lavoura == null & Tipo == null) {
+            insetos = this.todosInsetos();
+            for (Inseto c : insetos) {
+                result.add(String.valueOf(c.getCodigo()));
+            }
         }
 
         result = null;
@@ -141,9 +151,10 @@ public class DatabaseAcess {
             do {
                 Inseto inseto = new Inseto();
                 inseto.setCodigo(Integer.parseInt(c.getString(0)));
-                inseto.setTipo(c.getString(1));
-                inseto.setLavoura(c.getString(2));
-                inseto.setInf_adicionais(c.getString(3));
+                inseto.setNome(c.getString(1));
+                inseto.setTipo(c.getString(2));
+                inseto.setLavoura(c.getString(3));
+                inseto.setInf_adicionais(c.getString(4));
 
 
                 listaInsetos.add(inseto);
@@ -157,7 +168,7 @@ public class DatabaseAcess {
         SQLiteDatabase database = this.openHelper.getWritableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-        String[] select = {"_id", "tipo", "lavoura", "inf_adicionais", "imagem"};
+        String[] select = {"_id", "Nome", "tipo", "lavoura", "inf_adicionais", "imagem"};
 
         qb.setTables("tb_insetos");
 
@@ -165,7 +176,7 @@ public class DatabaseAcess {
         byte[] resultado = null;
         if (c.moveToFirst()) {
             do {
-                resultado = c.getBlob(4);
+                resultado = c.getBlob(5);
             } while (c.moveToNext());
         }
         return resultado;

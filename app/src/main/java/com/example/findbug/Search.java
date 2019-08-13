@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -76,9 +75,9 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
 
                 resultado = db.SearchInseto(TIPO, Lavoura);
 
-                Log.d("RESULTADO", String.valueOf(resultado));
+                //Log.d("RESULTADO", String.valueOf(resultado));
 
-                if (String.valueOf(resultado) == "[]") {
+                if (String.valueOf(resultado) == "[]" || String.valueOf(resultado) == null) {
                     Toast.makeText(Search.this, "RESULTADO NÃO ENCONTRADO", Toast.LENGTH_SHORT).show();
                 } else {
                     //Chamar o activity MenuBar
@@ -87,7 +86,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
                 }
             }
         });
-
     }
 
     //Chamada do menu (Haverá mais funções no futuro)

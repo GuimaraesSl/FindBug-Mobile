@@ -14,7 +14,7 @@ import com.example.findbug.Dominio.Inseto;
 
 public class inf_Adicionais extends AppCompatActivity {
 
-    TextView textInfTipo, textInfLavoura, textCod, textInfAd;
+    TextView textInfTipo, textInfLavoura, textNome, textInfAd;
     public static int ID;
     DatabaseAcess db;
     Inseto inseto;
@@ -37,7 +37,7 @@ public class inf_Adicionais extends AppCompatActivity {
 
         textInfTipo = findViewById(R.id.txtInfTipo);
         textInfLavoura = findViewById(R.id.txtInfLavoura);
-        textCod = findViewById(R.id.txtInfCod);
+        textNome = findViewById(R.id.txtInfNome);
         textInfAd = findViewById(R.id.txtInfAd);
         imageView = findViewById(R.id.imageView2);
 
@@ -53,7 +53,7 @@ public class inf_Adicionais extends AppCompatActivity {
             inseto = db.selecionarInseto(ID);
             //chama a função selecionar insetos do BC
 
-            textCod.setText(""+inseto.getCodigo());
+            textNome.setText("" + inseto.getNome());
             textInfTipo.setText(""+inseto.getTipo());
             textInfLavoura.setText(""+inseto.getLavoura());
             textInfAd.setText(""+inseto.getInf_adicionais());

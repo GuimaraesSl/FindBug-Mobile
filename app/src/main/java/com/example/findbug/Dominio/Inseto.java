@@ -6,22 +6,25 @@ public class Inseto {
     public String inf_adicionais;
     public String tipo;
     public String lavoura;
+    public String Nome;
 
     public Inseto(){
 
     }
 
-    public Inseto(int codigo, String tipo, String lavoura, String inf_adicionais){
+    public Inseto(int codigo, String Nome, String tipo, String lavoura, String inf_adicionais) {
 
         this.codigo         = codigo;
+        this.Nome = Nome;
         this.tipo           = tipo;
         this.lavoura        = lavoura;
         this.inf_adicionais = inf_adicionais;
 
     }
 
-    public Inseto(String tipo, String lavoura, String inf_adicionais){
+    public Inseto(String Nome, String tipo, String lavoura, String inf_adicionais) {
 
+        this.Nome = Nome;
             this.tipo           = tipo;
             this.lavoura        = lavoura;
             this.inf_adicionais = inf_adicionais;
@@ -59,6 +62,14 @@ public class Inseto {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+
+    public void setNome(String nome) {
+        this.Nome = nome;
     }
 
     public String getLavoura() {

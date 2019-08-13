@@ -23,7 +23,7 @@ public class MenuBar extends AppCompatActivity {
     public int cont = 0;
     ImageView imagens;
     public int Id;
-    ImageButton mais, seta_direita, seta_esquerda;
+    ImageButton mais, seta_direita, seta_esquerda, compartilhar;
     public List<String> resultado;
     Inseto inseto;
     inf_Adicionais inf;
@@ -47,6 +47,7 @@ public class MenuBar extends AppCompatActivity {
         seta_esquerda = findViewById(R.id.seta_esquerda);
         imagens = findViewById(R.id.imageInseto);
         mais = findViewById(R.id.mais);
+        compartilhar = findViewById(R.id.compartilhar);
 
         final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
         databaseAcess.open();
@@ -65,6 +66,17 @@ public class MenuBar extends AppCompatActivity {
                 startActivity(it);
             }
         });
+
+        compartilhar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent it = new Intent(MenuBar.this, Compartilhar.class);
+                startActivity(it);
+
+            }
+        });
+
 
         //===== PROCESSO DE MANIPULAÇÃOS DOS RESULTADOS DA PESQUISA (ID E IMAGENS)====
 
