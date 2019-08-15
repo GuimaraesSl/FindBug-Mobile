@@ -9,20 +9,9 @@
     <string name="title_cadastro">Cadastrar Inseto</string>
     <string-array name="TIPO">
         <item></item>
-        <item>ARANHA</item>
-        <item>BESOURO</item>
-        <item>CRISOPÍDEOS</item>
-        <item>JOANINHAS</item>
-        <item>LIBÉLULAS</item>
-        <item>MOSCAS ASILÍDEAS</item>
-        <item>MOSCAS DOLICOPODÍDEAS</item>
-        <item>MOSCAS SIRFÍDEAS</item>
-        <item>PERCEVEJO GEOCORIS</item>
-        <item>PERCEVEJO ORIUS</item>
-        <item>PERCEVEJO REDUVIÍDEOS</item>
-        <item>PERCEVEJO PENTATOMÍDEOS</item>
-        <item>TESOURINHA</item>
-        <item>VESPA PREDADORA</item>
+        <item>MOSCA</item>
+        <item>PERCEVEJO</item>
+        <item>LAGARTA</item>
     </string-array>
     <string-array name="LAVOURA">
         <item></item>
