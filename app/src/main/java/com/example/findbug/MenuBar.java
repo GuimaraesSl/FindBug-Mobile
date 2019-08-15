@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +32,6 @@ public class MenuBar extends AppCompatActivity {
     Inseto inseto;
     inf_Adicionais inf;
     DatabaseAcess db;
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class MenuBar extends AppCompatActivity {
         final String[] result = new String[resultado.size()];
         resultado.toArray(result);
 
+
         //FUNÇÃO BOTÃO DE INFORMAÇÕES ADICIONAIS
         //REGISTRA O ID DO INSETO ESCOLHIDO E INICIA O ACTIVITY DAS INFORMAÇÕES ADICIONAIS
         mais.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +74,33 @@ public class MenuBar extends AppCompatActivity {
         compartilhar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent it = new Intent(MenuBar.this, Compartilhar.class);
-                startActivity(it);
+                inseto = db.selecionarInseto(Id);
+                byte[] imagem = db.PegarImagensByID(String.valueOf(Id));
+                Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
+                try {
+                    File file = new File(getExternalCacheDir(), "myimage.png");
+                    FileOutputStream FOut = new FileOutputStream(file);
+                    bt.compress(Bitmap.CompressFormat.PNG, 80, FOut);
+                    FOut.flush();
+                    FOut.close();
+                    file.setReadable(true, false);
+                    final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Uri apkURI = FileProvider.getUriForFile(
+                            null,
+                            getApplicationContext()
+                                    .getPackageName() + ".provider", file);
+                    intent.setDataAndType(apkURI, "image/png");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.putExtra(Intent.EXTRA_TEXT, "NOME: " + inseto.getNome() + "\n" + "TIPO: " + inseto.getTipo() + "\n" + "LAVOURA: " + inseto.getLavoura());
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+                    startActivity(Intent.createChooser(intent, "Share Image"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });
-
 
         //===== PROCESSO DE MANIPULAÇÃOS DOS RESULTADOS DA PESQUISA (ID E IMAGENS)====
 
