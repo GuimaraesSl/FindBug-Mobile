@@ -125,10 +125,24 @@ public class DatabaseAcess {
         }
 
         if (Lavoura == null & Tipo == null) {
-            insetos = this.todosInsetos();
-            for (Inseto c : insetos) {
-                result.add(String.valueOf(c.getCodigo()));
+
+            String query = "SELECT * FROM " + TABELA_INSETO;
+
+            SQLiteDatabase bd = this.openHelper.getReadableDatabase();
+
+            Cursor c = bd.rawQuery(query, null);
+
+            if (c.moveToFirst()) {
+                do {
+                    Inseto inseto = new Inseto();
+                    inseto.setCodigo(Integer.parseInt(c.getString(0)));
+
+                    result.add(String.valueOf(inseto.getCodigo()));
+                } while (c.moveToNext());
             }
+
+            return result;
+
         }
 
         result = null;
