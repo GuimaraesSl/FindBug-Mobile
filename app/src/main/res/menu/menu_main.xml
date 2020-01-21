@@ -2,5 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.findbug.Search"
-    android:background="#059733"
-    />
+    android:background="#059733">
+    <item
+        android:id="@+id/avaliar"
+        android:title="Avaliar"
+        app:showAsAction="ifRoom" />
+</menu>

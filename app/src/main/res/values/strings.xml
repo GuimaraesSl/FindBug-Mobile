@@ -12,12 +12,26 @@
         <item>MOSCA</item>
         <item>PERCEVEJO</item>
         <item>LAGARTA</item>
+        <item>ABELHA</item>
+        <item>ÁCARO</item>
+        <item>COCHONILHA</item>
+        <item>BESOURO</item>
+        <item>TRIPES</item>
+        <item>CIGARRINHA</item>
+        <item>PULGÃO</item>
+        <item>BROCA</item>
+        <item>TRAÇA</item>
+        <item>LARVA</item>
     </string-array>
     <string-array name="LAVOURA">
         <item></item>
-        <item>ARROZ</item>
-        <item>FEIJÃO</item>
         <item>MARACUJÁ</item>
-        <item>LARANJA</item>
+        <item>CITROS</item>
+        <item>COQUEIRO</item>
+        <item>SOJA</item>
+        <item>MILHO</item>
+        <item>FEIJÃO</item>
+        <item>ALGODÃO</item>
+        <item>BANANA</item>
     </string-array>
 </resources>

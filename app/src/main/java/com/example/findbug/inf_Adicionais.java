@@ -64,7 +64,6 @@ public class inf_Adicionais extends AppCompatActivity {
             dlg.setMessage(ex.getMessage());
             dlg.setNeutralButton("OK", null);
             dlg.show();
-
         }
 
 

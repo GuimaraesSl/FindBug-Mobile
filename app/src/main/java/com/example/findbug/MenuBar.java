@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
@@ -25,13 +27,17 @@ import java.util.List;
 public class MenuBar extends AppCompatActivity {
 
     public int cont = 0;
-    ImageView imagens;
-    public int Id;
-    ImageButton mais, seta_direita, seta_esquerda, compartilhar;
     public List<String> resultado;
+    public int Id;
+    ImageView imagens;
+    ImageButton mais, seta_direita, seta_esquerda, compartilhar;
+    TextView NomeInseto;
+
     Inseto inseto;
     inf_Adicionais inf;
     DatabaseAcess db;
+
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class MenuBar extends AppCompatActivity {
         imagens = findViewById(R.id.imageInseto);
         mais = findViewById(R.id.mais);
         compartilhar = findViewById(R.id.compartilhar);
+        NomeInseto = findViewById(R.id.NomeInseto);
 
         final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
         databaseAcess.open();
@@ -78,6 +85,7 @@ public class MenuBar extends AppCompatActivity {
                 byte[] imagem = db.PegarImagensByID(String.valueOf(Id));
                 Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
                 try {
+                    Toast.makeText(MenuBar.this, "Compartilhando...", Toast.LENGTH_SHORT).show();
                     File file = new File(getExternalCacheDir(), "myimage.png");
                     FileOutputStream FOut = new FileOutputStream(file);
                     bt.compress(Bitmap.CompressFormat.PNG, 80, FOut);
@@ -112,6 +120,8 @@ public class MenuBar extends AppCompatActivity {
             Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
             imagens.setImageBitmap(bt);
             Id = (Integer.parseInt(result[cont]));
+            inseto = db.selecionarInseto(Id);
+            NomeInseto.setText("" + inseto.getNome());
         }
 
         seta_direita.setOnClickListener(new View.OnClickListener() {
@@ -120,31 +130,40 @@ public class MenuBar extends AppCompatActivity {
                     byte[] imagem = db.PegarImagensByID(String.valueOf(result[cont]));
                     Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
                     imagens.setImageBitmap(bt);
+                    Id = Integer.parseInt(result[cont]);
+                    inseto = db.selecionarInseto(Id);
+                    NomeInseto.setText("" + inseto.getNome());
                 } else {
                     cont++;
+                    Id = Integer.parseInt(result[cont]);
+                    inseto = db.selecionarInseto(Id);
+                    NomeInseto.setText("" + inseto.getNome());
                     byte[] imagem = db.PegarImagensByID(String.valueOf(result[cont]));
                     Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
                     imagens.setImageBitmap(bt);
                 }
-                Id = Integer.parseInt(result[cont]);
             }
         });
 
         seta_esquerda.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 if ((cont - 1) < 0) {
+                    Id = Integer.parseInt(result[cont]);
+                    inseto = db.selecionarInseto(Id);
+                    NomeInseto.setText("" + inseto.getNome());
                     byte[] imagem = db.PegarImagensByID(String.valueOf(result[cont]));
                     Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
                     imagens.setImageBitmap(bt);
                 } else {
                     cont--;
+                    Id = Integer.parseInt(result[cont]);
+                    inseto = db.selecionarInseto(Id);
+                    NomeInseto.setText("" + inseto.getNome());
                     //result[cont] = ID que vai mandar para a função de pegar imagem!!!!
                     byte[] imagem = db.PegarImagensByID(String.valueOf(result[cont]));
                     Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
                     imagens.setImageBitmap(bt);
                 }
-
-                Id = Integer.parseInt(result[cont]);
             }
         });
         //>>===================================================================

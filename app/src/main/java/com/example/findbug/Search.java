@@ -1,16 +1,17 @@
 package com.example.findbug;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,7 +27,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     public String Lavoura;
     public String TIPO;
     DatabaseAcess db;
-    ListView LIST;
     public static List<String> resultado;
 
     //Função para transmição do resultado do search para o MenuBar
@@ -44,8 +44,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         db = new DatabaseAcess(this);
         final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
         databaseAcess.open();
-
-        LIST = findViewById(R.id.LIST);
         SpnTipo = findViewById(R.id.SpnTipo);
         SpnLavoura = findViewById(R.id.SpnLavoura);
         resultado = new ArrayList<>();
@@ -94,6 +92,30 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+
+    }
+
+    //Avaliação no Menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id) {
+
+            case R.id.avaliar:
+
+                String url = "https://forms.gle/MAZdKCCQiZNQWDF5A";
+
+                Intent it = new Intent(Intent.ACTION_VIEW);
+                it.setData(Uri.parse(url));
+                startActivity(it);
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     //=====Registro das opções selecionadas nos Spinners====
@@ -123,4 +145,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
 
     }
     //=======================================================
+
+
 }
