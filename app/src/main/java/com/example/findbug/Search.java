@@ -127,10 +127,11 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         switch (id) {
             case R.id.avaliar:
 
-                String url = "https://forms.gle/MAZdKCCQiZNQWDF5A";
+                //String url = "https://forms.gle/MAZdKCCQiZNQWDF5A";
 
-                Intent it = new Intent(Intent.ACTION_VIEW);
-                it.setData(Uri.parse(url));
+                //Intent it = new Intent(Intent.ACTION_VIEW);
+                //it.setData(Uri.parse(url));
+                Intent it = new Intent(Search.this, Fav.class);
                 startActivity(it);
                 break;
         }
