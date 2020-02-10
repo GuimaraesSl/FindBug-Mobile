@@ -15,7 +15,7 @@ public class Inseto {
     public Inseto(int codigo, String Nome, String tipo, String lavoura, String inf_adicionais) {
 
         this.codigo         = codigo;
-        this.Nome = Nome;
+        this.Nome           = Nome;
         this.tipo           = tipo;
         this.lavoura        = lavoura;
         this.inf_adicionais = inf_adicionais;
