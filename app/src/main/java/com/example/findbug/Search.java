@@ -3,11 +3,11 @@ package com.example.findbug;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.core.view.MenuItemCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -62,8 +62,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         AdapterInsetos = new SearchAdapter(this, ListaInseto);
         ListaInseto.clear();
 
-        ListaInseto = db.getInsetos();
-
         materialSearchBar = (MaterialSearchBar)findViewById(R.id.search_bar);
 
         //init database
@@ -74,6 +72,8 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         SpnTipo = findViewById(R.id.SpnTipo);
         SpnLavoura = findViewById(R.id.SpnLavoura);
         resultado = new ArrayList<>();
+
+        ListaInseto = db.getInsetos();
 
         //===================CONFIGURAÇÃO SPINNERS=========================
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.TIPO, android.R.layout.simple_spinner_item);
