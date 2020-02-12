@@ -16,8 +16,6 @@ public class DatabaseAcess {
     private SQLiteDatabase database;
     private static DatabaseAcess instance;
     public static final String COLUNA_NOME = "Nome";
-    List<Inseto> insetos;
-    DatabaseAcess databaseAcess;
 
     public DatabaseAcess(Context context){
         this.openHelper = new BancoController(context);
@@ -50,8 +48,7 @@ public class DatabaseAcess {
     public static final String COLUNA_IMAGENS = "imagem";
 
     //Get all Insetos
-    public List<Inseto> getInsetos()
-    {
+    public List<Inseto> getInsetos() {
         SQLiteDatabase db = this.openHelper.getReadableDatabase();
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 

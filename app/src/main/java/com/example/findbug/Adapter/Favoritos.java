@@ -1,4 +1,4 @@
-package com.example.findbug;
+package com.example.findbug.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,13 +11,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
+import com.example.findbug.R;
 
 import java.util.List;
 
-class SearchViewHolder extends RecyclerView.ViewHolder {
+class SearchViewHolder extends ViewHolder {
 
     public TextView name, tipo, lavoura, ID;
     public ImageView imageFav;
@@ -27,16 +29,16 @@ class SearchViewHolder extends RecyclerView.ViewHolder {
         name = (TextView) itemView.findViewById(R.id.nameFav);
         tipo = (TextView) itemView.findViewById(R.id.tipoFav);
         lavoura = (TextView) itemView.findViewById(R.id.lavouraFav);
-        imageFav = (ImageView) itemView.findViewById(R.id.imageFav);;
+        imageFav = (ImageView) itemView.findViewById(R.id.imageFav);
     }
 }
 
-class FavAdapter extends RecyclerView.Adapter<SearchViewHolder>{
+public class Favoritos extends RecyclerView.Adapter<SearchViewHolder>{
 
     private Context context;
     private List<Inseto> inseto;
 
-    public FavAdapter(Context context, List<Inseto> inseto){
+    public Favoritos(Context context, List<Inseto> inseto){
 
         this.context = context;
         this.inseto = inseto;
@@ -72,6 +74,8 @@ class FavAdapter extends RecyclerView.Adapter<SearchViewHolder>{
     public int getItemCount() {
         return inseto.size();
     }
+
+
 
     /*public void setFilter(ArrayList<Inseto> newlist){
         inseto = new ArrayList<>();

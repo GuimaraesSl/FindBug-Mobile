@@ -1,12 +1,9 @@
 package com.example.findbug;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.core.view.MenuItemCompat;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,16 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.findbug.Adapter.SearchAdapter;
-import com.example.findbug.Dominio.BancoController;
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
-import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Search extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SearchView.OnQueryTextListener {
+public class Search extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner SpnTipo;
     Spinner SpnLavoura;
@@ -34,15 +28,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     public String Lavoura;
     public String TIPO;
     DatabaseAcess db;
-    BancoController dbSearch;
     public static List<String> resultado;
-    private List<Inseto> ListaInseto;
-    SearchAdapter searchAdapter;
-
-    SearchAdapter AdapterInsetos;
-
-    MaterialSearchBar materialSearchBar;
-    List<String> suggestList = new ArrayList<>();
 
     //Função para transmição do resultado do search para o MenuBar
     public static List<String> getResult() {
@@ -55,14 +41,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         setContentView(R.layout.activity_search);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        dbSearch = new BancoController(this);
-
-        //init ArrayList
-        ListaInseto = new ArrayList<>();
-        AdapterInsetos = new SearchAdapter(this, ListaInseto);
-        ListaInseto.clear();
-
-        materialSearchBar = (MaterialSearchBar)findViewById(R.id.search_bar);
 
         //init database
         db = new DatabaseAcess(this);
@@ -72,8 +50,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         SpnTipo = findViewById(R.id.SpnTipo);
         SpnLavoura = findViewById(R.id.SpnLavoura);
         resultado = new ArrayList<>();
-
-        ListaInseto = db.getInsetos();
 
         //===================CONFIGURAÇÃO SPINNERS=========================
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.TIPO, android.R.layout.simple_spinner_item);
@@ -95,8 +71,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
 
                 resultado = db.SearchInseto(TIPO, Lavoura);
 
-                //Log.d("RESULTADO", String.valueOf(resultado));
-
                 if (String.valueOf(resultado) == "[]" || String.valueOf(resultado) == null) {
                     Toast.makeText(Search.this, "RESULTADO NÃO ENCONTRADO", Toast.LENGTH_SHORT).show();
                 } else {
@@ -114,8 +88,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         MenuItem search = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
-        searchView.setOnQueryTextListener(this);
         return true;
 
     }
@@ -138,28 +110,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean onQueryTextSubmit(String query){
-        return false;
-    }
-
-    public  boolean onQueryTextChange(String newText){
-        newText = newText.toLowerCase();
-        ArrayList<Inseto> newList = new ArrayList<>();
-        for (Inseto inseto : ListaInseto)
-        {
-            String name = ClassInseto.getNome().toLowerCase();
-            if (name.contains(newText)){
-                newList.add(inseto);
-            }
-
-        }
-        //---->>>>>>
-        searchAdapter.setFilter(newList);
-        return true;
-    }
-
-
-
     //=====Registro das opções selecionadas nos Spinners====
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -172,7 +122,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
                 TIPO = SpnTipo.getItemAtPosition(position).toString();
             }
         }
-
         if(spin.getId() == R.id.SpnLavoura){
             if (position == 0) {
                 Lavoura = null;

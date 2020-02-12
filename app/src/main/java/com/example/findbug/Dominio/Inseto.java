@@ -24,7 +24,7 @@ public class Inseto {
 
     public Inseto(String Nome, String tipo, String lavoura, String inf_adicionais) {
 
-        this.Nome = Nome;
+            this.Nome           = Nome;
             this.tipo           = tipo;
             this.lavoura        = lavoura;
             this.inf_adicionais = inf_adicionais;

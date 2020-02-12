@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.findbug.Adapter.Favoritos;
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
 
@@ -18,8 +19,8 @@ public class Fav extends AppCompatActivity {
     DatabaseAcess db;
     RecyclerView listFav;
     RecyclerView.LayoutManager layoutManager;
-    FavAdapter adapterFav;
-    FavAdapter  adapter;
+    Favoritos adapterFav;
+    Favoritos  adapter;
     private List<Inseto> listaInseto;
 
     @Override
@@ -32,7 +33,7 @@ public class Fav extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
 
         listaInseto = new ArrayList<>();
-        adapterFav = new FavAdapter(this, listaInseto);
+        adapterFav = new Favoritos(this, listaInseto);
         listaInseto.clear();
 
         listaInseto = db.getInsetos();
@@ -43,7 +44,7 @@ public class Fav extends AppCompatActivity {
         listFav.setHasFixedSize(true);
         listFav.setAdapter(adapterFav);
 
-        adapter = new FavAdapter(this, db.getInsetos());
+        adapter = new Favoritos(this, db.getInsetos());
         listFav.setAdapter(adapter);
 
     }
