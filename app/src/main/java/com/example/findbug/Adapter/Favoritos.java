@@ -50,7 +50,7 @@ public class Favoritos extends RecyclerView.Adapter<SearchViewHolder>{
     public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = inflater.inflate(R.layout.content_favoritos, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.content_adapter_fav, viewGroup, false);
 
         return new SearchViewHolder(itemView);
     }

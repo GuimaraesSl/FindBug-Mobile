@@ -1,12 +1,14 @@
 <resources>
-    <string name="app_name">FindBug</string>
+    <string name="app_name">TheBug</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_menu_bar">FindBug</string>
+    <string name="title_activity_menu_bar">TheBug</string>
     <string name="title_activity_inf__adicionais">Informações Adicionais</string>
     <string name="title_activity_cadastrar_inseto">Cadastro de Inseto</string>
     <string name="lavoura">LAVOURA</string>
     <string name="inf_inseto">Informações do Inseto</string>
     <string name="title_cadastro">Cadastrar Inseto</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
     <string-array name="TIPO">
         <item></item>
         <item>MOSCA</item>

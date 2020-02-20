@@ -3,6 +3,7 @@ package com.example.findbug;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,9 @@ public class Fav extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Favoritos ");
+        setSupportActionBar(toolbar);
 
         db = new DatabaseAcess(this);
         listFav = (RecyclerView)findViewById(R.id.listFav);
