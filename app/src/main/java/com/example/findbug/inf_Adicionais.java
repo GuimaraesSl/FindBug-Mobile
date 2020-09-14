@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
@@ -74,17 +75,16 @@ public class inf_Adicionais extends AppCompatActivity {
             dlg.show();
         }
 
+
         //Setando o ID do inseto para adicionar na lista de favoritos
         FloatingActionButton fav = findViewById(R.id.favButton);
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 IDs.add(""+ID);
+                Toast.makeText(inf_Adicionais.this, ""+IDs, Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
 
     }
 

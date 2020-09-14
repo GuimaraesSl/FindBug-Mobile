@@ -38,6 +38,8 @@ public class Favoritos extends RecyclerView.Adapter<SearchViewHolder>{
     private Context context;
     private List<Inseto> inseto;
 
+
+
     public Favoritos(Context context, List<Inseto> inseto){
 
         this.context = context;
@@ -60,14 +62,14 @@ public class Favoritos extends RecyclerView.Adapter<SearchViewHolder>{
         DatabaseAcess db;
         db = new DatabaseAcess(context);
         int ID = inseto.get(position).getId();
+
+
         searchViewHolder.name.setText(inseto.get(position).getNome());
         searchViewHolder.tipo.setText(inseto.get(position).getTipo());
         searchViewHolder.lavoura.setText(inseto.get(position).getLavoura());
         byte[] imagem = db.PegarImagensByID(String.valueOf(ID));
         Bitmap bt = BitmapFactory.decodeByteArray(imagem, 0, imagem.length);
         searchViewHolder.imageFav.setImageBitmap(bt);
-
-
     }
 
     @Override
