@@ -6,11 +6,17 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class inf_Adicionais extends AppCompatActivity {
 
@@ -20,6 +26,7 @@ public class inf_Adicionais extends AppCompatActivity {
     Inseto inseto;
     MenuBar Menu;
     ImageView imageView;
+    public List<String> IDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,7 @@ public class inf_Adicionais extends AppCompatActivity {
         db = new DatabaseAcess(this);
         Menu = new MenuBar();
         inseto = new Inseto();
+        IDs = new ArrayList<>();
 
         final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
         databaseAcess.open();
@@ -65,6 +73,15 @@ public class inf_Adicionais extends AppCompatActivity {
             dlg.setNeutralButton("OK", null);
             dlg.show();
         }
+
+        //Setando o ID do inseto para adicionar na lista de favoritos
+        FloatingActionButton fav = findViewById(R.id.favButton);
+        fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IDs.add(""+ID);
+            }
+        });
 
 
 
