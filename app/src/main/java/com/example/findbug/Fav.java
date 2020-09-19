@@ -22,7 +22,7 @@ public class Fav extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     Favoritos adapterFav;
     Favoritos  adapter;
-    private List<Inseto> listaInseto;
+    public List<Inseto> listaInseto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +35,17 @@ public class Fav extends AppCompatActivity {
         db = new DatabaseAcess(this);
         listFav = (RecyclerView)findViewById(R.id.listFav);
         layoutManager = new LinearLayoutManager(this);
+        int[] n = new int[db.getIdFav().size()];
 
         listaInseto = new ArrayList<>();
         adapterFav = new Favoritos(this, listaInseto);
         listaInseto.clear();
 
-        listaInseto = db.getInsetos();
+        for(int i = 0; i<db.getIdFav().size(); i++) {
+            n[i] = Integer.parseInt(db.getIdFav().get(i));
+            listaInseto.add(db.selecionarInseto(n[i]));
+        }
+        System.out.println(listaInseto);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         listFav.setLayoutManager(mLayoutManager);
@@ -48,7 +53,7 @@ public class Fav extends AppCompatActivity {
         listFav.setHasFixedSize(true);
         listFav.setAdapter(adapterFav);
 
-        adapter = new Favoritos(this, db.getInsetos());
+        adapter = new Favoritos(this, listaInseto);
         listFav.setAdapter(adapter);
 
     }

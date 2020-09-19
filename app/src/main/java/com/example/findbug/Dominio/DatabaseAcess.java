@@ -1,5 +1,6 @@
 package com.example.findbug.Dominio;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +16,6 @@ public class DatabaseAcess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAcess instance;
-    public static final String COLUNA_NOME = "Nome";
 
     public DatabaseAcess(Context context){
         this.openHelper = new BancoController(context);
@@ -42,10 +42,12 @@ public class DatabaseAcess {
 
     public static final String TABELA_INSETO = "tb_insetos";
     public static final String COLUNA_COD = "_id";
+    public static final String COLUNA_NOME = "Nome";
     public static final String COLUNA_TIPO = "tipo";
     public static final String COLUNA_LAVOURA = "lavoura";
     public static final String COLUNA_INF_ADICIONAIS = "inf_adicionais";
     public static final String COLUNA_IMAGENS = "imagem";
+    public static final String COLUNA_COD_FAV = "id_fav";
 
     //Get all Insetos
     public List<Inseto> getInsetos() {
@@ -79,7 +81,7 @@ public class DatabaseAcess {
         SQLiteDatabase db = this.openHelper.getReadableDatabase();
 
         Cursor cursor = db.query(TABELA_INSETO, new String[]{COLUNA_COD, COLUNA_NOME,
-                        COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS}, COLUNA_COD + " = ?",
+                        COLUNA_TIPO, COLUNA_LAVOURA, COLUNA_INF_ADICIONAIS, COLUNA_IMAGENS, COLUNA_COD_FAV}, COLUNA_COD + " = ?",
                 new String[]{String.valueOf(codigo)}, null, null, null, null);
 
         if(cursor!=null) {
@@ -191,6 +193,45 @@ public class DatabaseAcess {
             } while (c.moveToNext());
         }
         return resultado;
+    }
+
+    //Adicionar ID dos favoritos na tabela
+    public void inserirIDFav (int codigo){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUNA_COD_FAV, codigo);
+        open();
+        this.database.insert(TABELA_INSETO, null, contentValues);
+    }
+
+    //Deleta o IDfavoritos do inseto escolhido da tablea
+    public void deletarIdFav(int codigo){
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(codigo);
+        open();
+        this.database.delete(TABELA_INSETO, "id_fav = ?", parametros);
+    }
+
+    //Pega os IDs adicionados na coluna dos favoritos na tabela
+    public List<String> getIdFav(){
+        SQLiteDatabase db = this.openHelper.getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] sqlSelect = {"_id", "Nome", "tipo", "lavoura", "inf_adicionais", "imagem", "id_fav"};
+        String tableName = "tb_insetos";
+
+        qb.setTables(tableName);
+        Cursor cursor = qb.query(db,sqlSelect, null,null,null,null, null);
+        List<String> result = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                Inseto inseto = new Inseto();
+                inseto.setCodigo(cursor.getInt(cursor.getColumnIndex("id_fav")));
+                if((inseto.getCodigo() != 0) && (!result.contains(inseto.getCodigo()))){
+                    result.add(inseto.getCodigo()+"");
+                }
+            } while(cursor.moveToNext());
+        }
+        return result;
     }
 
     //==================================================================================================

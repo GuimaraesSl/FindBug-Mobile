@@ -27,7 +27,7 @@ public class inf_Adicionais extends AppCompatActivity {
     Inseto inseto;
     MenuBar Menu;
     ImageView imageView;
-    public List<String> IDs;
+    int cont = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,6 @@ public class inf_Adicionais extends AppCompatActivity {
         db = new DatabaseAcess(this);
         Menu = new MenuBar();
         inseto = new Inseto();
-        IDs = new ArrayList<>();
 
         final DatabaseAcess databaseAcess = DatabaseAcess.getInstance(this);
         databaseAcess.open();
@@ -60,7 +59,7 @@ public class inf_Adicionais extends AppCompatActivity {
         //PROCESSO PARA CHAMAR A FUNÇÃO QUE RECOLHERÁ AS INFORMAÇÕES NO INSETO ESCOLHIDO
         try {
             inseto = db.selecionarInseto(ID);
-            //chama a função selecionar insetos do BC
+            //chama a função selecionar insetos do DA
 
             textNome.setText("" + inseto.getNome());
             textInfTipo.setText(""+inseto.getTipo());
@@ -77,12 +76,30 @@ public class inf_Adicionais extends AppCompatActivity {
 
 
         //Setando o ID do inseto para adicionar na lista de favoritos
-        FloatingActionButton fav = findViewById(R.id.favButton);
+        final FloatingActionButton fav = findViewById(R.id.favButton);
+        //Verifica se o ID tratado já está na lista e determina o icone do botão
+        if(!db.getIdFav().contains(String.valueOf(ID))){
+            fav.setImageResource(R.drawable.ic_favorite_border);
+        } else {
+            fav.setImageResource(R.drawable.ic_fav);
+        }
+
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IDs.add(""+ID);
-                Toast.makeText(inf_Adicionais.this, ""+IDs, Toast.LENGTH_SHORT).show();
+
+                //Se o ID não estiver contido na lista de IDs dos favoritos determina o icone do botão e chama a função de adicionar
+                if(!db.getIdFav().contains(String.valueOf(ID))){
+                    fav.setImageResource(R.drawable.ic_fav);
+                    db.inserirIDFav(ID);
+                    Toast.makeText(inf_Adicionais.this, db.getIdFav()+"", Toast.LENGTH_SHORT).show();
+                //Se não, determina o icone do botão e chama a função de excluir o ID da lista
+                } else {
+                    fav.setImageResource(R.drawable.ic_favorite_border);
+                    db.deletarIdFav(ID);
+                    Toast.makeText(inf_Adicionais.this, db.getIdFav()+"", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

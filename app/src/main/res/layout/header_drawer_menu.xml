@@ -3,12 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="160dp"
-    android:background="@drawable/logo2">
+    android:background="@drawable/gradient">
 
-    <ImageView
-        android:layout_width="143dp"
-        android:layout_height="119dp"
-        android:src="@drawable/ic_app" />
+<!--    <ImageView-->
+<!--        android:layout_width="143dp"-->
+<!--        android:layout_height="119dp"-->
+<!--        android:src="@drawable/ic_app" />-->
 
     <TextView
         android:layout_width="wrap_content"

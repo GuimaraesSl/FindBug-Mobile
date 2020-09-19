@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.example.findbug.Dominio.DatabaseAcess;
 import com.example.findbug.Dominio.Inseto;
+import com.example.findbug.Fav;
 import com.example.findbug.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class SearchViewHolder extends ViewHolder {
@@ -37,6 +39,7 @@ public class Favoritos extends RecyclerView.Adapter<SearchViewHolder>{
 
     private Context context;
     private List<Inseto> inseto;
+    public Fav lista;
 
 
 
@@ -61,9 +64,17 @@ public class Favoritos extends RecyclerView.Adapter<SearchViewHolder>{
     public void onBindViewHolder(@NonNull SearchViewHolder searchViewHolder, int position) {
         DatabaseAcess db;
         db = new DatabaseAcess(context);
-        int ID = inseto.get(position).getId();
+        lista = new Fav();
+        int[] n = new int[db.getIdFav().size()];
+        //Adiciona os insetos da coluna dos IDs dos favoritos
+        inseto.clear();
+        for(int i = 0; i<db.getIdFav().size(); i++) {
+            n[i] = Integer.parseInt(db.getIdFav().get(i));
+            inseto.add(db.selecionarInseto(n[i]));
+            lista.listaInseto = inseto;
+        }
 
-
+        int ID = inseto.get(position).getCodigo();
         searchViewHolder.name.setText(inseto.get(position).getNome());
         searchViewHolder.tipo.setText(inseto.get(position).getTipo());
         searchViewHolder.lavoura.setText(inseto.get(position).getLavoura());
@@ -77,11 +88,4 @@ public class Favoritos extends RecyclerView.Adapter<SearchViewHolder>{
         return inseto.size();
     }
 
-
-
-    /*public void setFilter(ArrayList<Inseto> newlist){
-        inseto = new ArrayList<>();
-        inseto.addAll(newlist);
-        notifyDataSetChanged();
-    }*/
 }

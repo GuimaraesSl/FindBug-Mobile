@@ -196,7 +196,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:src="@drawable/ic_fav"
+        android:src="@drawable/ic_favorite_border"
         android:id="@+id/favButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
